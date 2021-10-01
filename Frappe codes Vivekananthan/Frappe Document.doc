@@ -1,0 +1,363 @@
+Frappe 
+
+1.Bench:
+	Bench is a command line tool that helps you install, setup, manage multiple sites and apps based on Frappe Framework.
+
+	1. Apps
+
+		A Frappe app is a python package that uses the Frappe framework. Frappe apps live in a directory called apps in the frappe-bench directory.
+
+		(*) File Structure:
+		---> apps/custom_app
+				├── MANIFEST.in
+				├── README.md
+				├── custom_app
+				│   ├── __init__.py
+				│   ├── config
+				│   │   ├── __init__.py
+				│   │   ├── desktop.py
+				│   │   └── docs.py
+				│   ├── custom_app
+				│   │   └── __init__.py
+				│   ├── hooks.py
+				│   ├── modules.txt
+				│   ├── patches.txt
+				│   ├── public
+				│   │   ├── css
+				│   │   └── js
+				│   ├── templates
+				│   │   ├── __init__.py
+				│   │   └── includes
+				│   └── www
+				├── custom_app.egg-info
+				│   ├── PKG-INFO
+				│   ├── SOURCES.txt
+				│   ├── dependency_links.txt
+				│   ├── not-zip-safe
+				│   ├── requires.txt
+				│   └── top_level.txt
+				├── license.txt
+				├── requirements.txt
+				├── package.json
+				└── setup.py
+
+
+	2. Sites
+		 Database
+
+		 (*) File Structure:
+
+			sites/mysite.local
+				├── locks
+				├── private
+				│   ├── backups
+				│   └── files
+				├── public
+				│   └── files
+				├── site_config.json
+				└── task-logs
+
+
+	3. Bench commands
+
+			bench new-app [app-name] Creates a new app
+			bench get-app [repo-link] - Downloads an app from a git repository and installs it
+			--branch [branch-name] Fetches specific branch of app
+			bench install-app [app-name] Installs existing app
+			bench remove-from-installed-apps [app-name] Remove app from the list of apps
+			bench uninstall-app [app-name] Delete app and everything linked to the app (Bench needs to be running)
+			bench remove-app [app-name] Remove app from the bench entirely
+			bench --site [sitename] --force reinstall Reinstall with fresh database (Caution: Will wipe out old database)
+			bench new-site [sitename] - Creates a new site
+			--db-name Database name
+			--db-host Custom database host URL for remote connection
+			--db-port Custom database listening port (eg. port other than the default 3306)
+			--mariadb-root-username Root username for MariaDB
+			--mariadb-root-password Root password for MariaDB
+			--admin-password Administrator password for new site
+			--verbose Verbose
+			--force Force restore if site/database already exists
+			--source_sql Initiate database with a SQL file
+			--install-app Install app after installation`
+			bench use [site] Sets a default site
+			bench drop-site Removes site from disk and database completely
+			--root-login
+			--root-password
+			bench set-config [key] [value] Adds a key-value pair to site's config file
+			bench console Opens a IPython console in the bench venv
+			bench execute Execute a method inside any app.
+			Eg : bench execute frappe.utils.scheduler.enqueue_scheduler_events
+			bench --site [sitename] mariadb Opens SQL Console
+			bench --site [sitename] export-fixtures [--app TEXT] Export the records defined in the app's hooks as JSON files.
+			bench run-tests Run tests
+			--app App Name
+			--doctype DocType to run tests for
+			--test Specific Test
+			--module Run a particular module that has tests
+			--profile Runs a Python profiler on the test
+			bench disable-production Disables production environment
+
+2.DocType:
+		
+		Like a table in Database,  It describes the Model and the View of your data
+
+			Modules
+			DocField
+			Naming
+			Controllers
+			Controller Methods
+			Controller Hooks
+			Child DocType
+			Single DocType
+			Virtual DocType
+			Actions and Links
+			Customizing DocTypes
+
+3. Users and Permissions
+
+	Frappe comes with a user authentication system. It handles user accounts, role based permissions and cookie based user sessions.
+
+		User
+		Role
+		DocType Permissions
+		Permission Level
+		Role Permission Manager
+		User Permissions
+		-------------------------------------------------------------
+		Restricting Views and Forms
+		Password Hashing
+		Password strength checking
+		Throttling of login attempts
+		Third party authentication like OAuth, Google, Facebook, etc
+
+4. Desk
+		Frappe Framework comes with a rich admin interface called the Desk. It reads meta-data from DocTypes and automatically builds list views, form views, report views, etc for your DocTypes. Desk is to be used by users of the type "System User".
+		----------------------------------------------------------------------------------
+		Workspace
+		Awesomebar
+		List View
+		Form View
+		Report Builder
+		Tree View
+		Calendar View
+		Gantt View
+		Kanban View
+
+		----------------------------------------------------------------------------------
+			Reports ---incomplete
+			Printing
+			Attachments
+			Scripting
+			Translations ---theory knowladge
+			Form Tours
+
+5.Portal
+
+		Portal Pages
+		Web Forms
+		Blog Post
+
+6.Python API
+
+		Document API
+
+			frappe.get_doc
+			frappe.get_last_doc
+			frappe.get_cached_doc
+			frappe.new_doc
+			frappe.delete_doc
+			frappe.rename_doc
+			frappe.get_meta
+			-----------------------------------------------------------------------------------
+			--------------- > Document Methods
+			-----------------------------------------------------------------------------------
+			doc.insert
+			doc.save
+			doc.delete
+			doc.get_doc_before_save
+			doc.reload
+			doc.check_permission
+			doc.get_title
+			doc.notify_update
+			doc.db_set
+			doc.get_url
+			doc.add_comment
+			doc.add_seen
+			doc.add_viewed
+			doc.add_tag
+			doc.get_tags
+			doc.run_method
+			doc.queue_action
+
+		Database API
+
+			frappe.db.get_list
+			frappe.db.get_all
+			frappe.db.get_value
+			frappe.db.get_single_value
+			frappe.db.set_value
+			frappe.db.exists
+			frappe.db.count
+			frappe.db.delete
+			frappe.db.truncate
+			frappe.db.commit
+			frappe.db.rollback
+			frappe.db.sql
+			frappe.db.multisql
+			frappe.db.rename_table
+			frappe.db.describe
+			frappe.db.change_column_type
+
+		Jinja API
+
+			frappe.format
+			frappe.format_date
+			frappe.get_url
+			frappe.get_doc
+			frappe.get_all
+			frappe.get_list
+			frappe.db.get_value
+			frappe.db.get_single_value
+			frappe.get_system_settings
+			frappe.get_meta
+			frappe.get_fullname
+			frappe.render_template
+			frappe._
+			frappe.session.user
+			frappe.session.csrf_token
+			frappe.form_dict
+
+
+
+		Routing and Rendering
+
+		Language Resolution
+
+		Common Utilities
+
+			now
+			getdate
+			today
+			add_to_date
+			pretty_date
+			format_duration
+			comma_and
+			money_in_words
+			validate_json_string
+			random_string
+			unique
+			get_pdf
+			get_abbr
+			validate_url
+			validate_email_address
+			validate_phone_number
+			frappe.cache()
+			frappe.sendmail()
+
+		Response
+
+
+
+		Search
+
+		Hooks
+
+		REST API
+
+		Full Text Search
+
+		Dialog API
+
+			frappe.msgprint
+			frappe.throw
+
+		Query Builder
+
+Javascript API
+		Form API
+			Form API
+				frm.set_value
+				frm.refresh
+				frm.save
+				frm.enable_save / frm.disable_save
+				frm.email_doc
+				frm.reload_doc
+				frm.refresh_field
+				frm.is_dirty
+				frm.dirty
+				frm.is_new
+				frm.set_intro
+				frm.add_custom_button
+				frm.remove_custom_button
+				frm.clear_custom_buttons
+				frm.set_df_property
+				frm.toggle_enable
+				frm.toggle_reqd
+				frm.toggle_display
+				frm.set_query
+				frm.add_child
+				frm.call
+				frm.trigger
+				frm.get_selected
+				frm.ignore_doctypes_on_cancel_all
+
+		Controls
+
+			frappe.ui.form.make_control
+
+		List
+
+			Standard List JS
+			Custom List JS
+
+		Page
+
+			frappe.ui.make_app_page
+			Page methods
+			page.set_title
+			page.set_title_sub
+			page.set_indicator
+			page.clear_indicator
+			page.set_primary_action
+			page.clear_primary_action
+			page.set_secondary_action
+			page.clear_secondary_action
+			page.add_menu_item
+			page.clear_menu
+			page.add_action_item
+			page.clear_actions_menu
+			page.add_inner_button
+			page.remove_inner_button
+			page.clear_inner_toolbar
+			page.add_field
+			page.get_form_values
+			page.clear_fields
+
+		Common Utilities
+
+			frappe.get_route
+			frappe.set_route
+			frappe.format
+			frappe.provide
+			frappe.require
+
+		Dialog API
+
+			frappe.ui.Dialog
+			frappe.msgprint
+			frappe.throw
+			frappe.prompt
+			frappe.confirm
+			frappe.warn
+			frappe.show_alert
+			frappe.show_progress
+			frappe.new_doc
+			frappe.ui.form.MultiSelectDialog
+
+		Chart API
+		
+			frappe.ui.RealtimeChart
+			frappe.ui.RealtimeChart.start_updating
+			frappe.ui.RealtimeChart.stop_updating
+			frappe.ui.RealtimeChart.update_chart
+
